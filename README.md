@@ -1,2 +1,2 @@
 # laravel-with-react
-Learning how to use React with Laravel to build a project.
+ReactJS CRUD with Laravel REST API from Scratch
