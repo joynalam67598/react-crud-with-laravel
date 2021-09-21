@@ -8,15 +8,16 @@ export default function Student() {
           <div className="card">
             <div className="card-header">
               <h4>
-                Studen Data
+                Student Data
                 <Link
-                  to="add-student"
+                  to="/addStudent"
                   className="btn btn-primary btn-sm float-end"
                 >
                   Add Student
                 </Link>
               </h4>
             </div>
+            <div className="card-body"></div>
           </div>
         </div>
       </div>
