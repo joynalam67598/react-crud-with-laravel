@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
 import React,{useEffect,useState} from 'react';
+import swal from 'sweetalert';
 
 export default function Student() {
 
@@ -18,6 +19,29 @@ export default function Student() {
     }
     fetchData();
   },[]);
+
+  const deleteData= (e,id) =>{
+
+    const buttonRef = e.currentTarget;
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this student data!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+          if (willDelete) {
+            axios.delete(`http://localhost:8000/api/delete-student/${id}`);
+            buttonRef.closest("tr").remove();
+            swal("Student data deleted successfully!", {
+                icon: "success",
+            });
+          } else {
+            swal("Student data is safe!");
+          }
+    });
+
+  }
 
   return (
     <div className="container">
@@ -58,8 +82,8 @@ export default function Student() {
                       <td>{student.email}</td>
                       <td>{student.phone}</td>
                       <td>
-                        <Link to={`editStudent/${student.id}`} className="btn btn-outline-success m-1 btn-sm">Edit</Link>
-                        <Link to={`delete-student/${student.id}`} className="btn btn-outline-danger m-1 btn-sm">Delete</Link>
+                        <Link to={`edit-student/${student.id}`} className="btn btn-outline-success m-1 btn-sm">Edit</Link>
+                        <button onClick={(e)=>deleteData(e,student.id)} className="btn btn-outline-danger m-1 btn-sm">Delete</button>
                       </td>
                     </tr>
                   ))

@@ -17,6 +17,9 @@ use App\Http\Controllers\API\StudentController;
     // data send er jonno post;
     Route::post("/add-student",[StudentController::class,'store']);
     Route::get("/all-students",[StudentController::class,'index']);
+    Route::get("/edit-student/{id}",[StudentController::class,'edit']);
+    Route::post("/update-student",[StudentController::class,'update']);
+    Route::delete("/delete-student/{id}",[StudentController::class,'destroy']);
 
 
 

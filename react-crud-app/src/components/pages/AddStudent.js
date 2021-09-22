@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import React from 'react';
+import swal from 'sweetalert';
 
 export default function AddStudent() {
   const [studentData, setStudentData] = useState({
@@ -23,7 +24,12 @@ export default function AddStudent() {
     try {
       const res = await axios.post("http://localhost:8000/api/add-student", studentData);
       if(res.data.status===200) {
-        console.log(res.data.message);
+        swal({
+          title: "Success!",
+          text: res.data.message,
+          icon: "success",
+          button: "Ok!",
+        });
         setStudentData({
           name: "",
           course: "",
