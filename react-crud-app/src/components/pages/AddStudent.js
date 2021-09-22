@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import React from 'react';
 
 export default function AddStudent() {
   const [studentData, setStudentData] = useState({
@@ -18,9 +19,18 @@ export default function AddStudent() {
   };
 
   const saveStudent = async (e) => {
-    e.prventDefault();
+    e.preventDefault();
     try {
-      const res = await axios.post("/api/add-student", studentData);
+      const res = await axios.post("http://localhost:8000/api/add-student", studentData);
+      if(res.data.status===200) {
+        console.log(res.data.message);
+        setStudentData({
+          name: "",
+          course: "",
+          email: "",
+          phone: "",
+        })
+      }
     } catch (err) {
       console.log(err);
     }
