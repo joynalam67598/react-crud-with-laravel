@@ -1,17 +1,35 @@
 import axios from "axios";
 import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
-import {useParams} from 'react-router';
 import React from 'react';
+import swal from "sweetalert";
 
-export default function EditStudent() {
+export default function EditStudent(props) {
+
+	const id = props.match.params.id;
 	const [studentData, setStudentData] = useState({
+		id:'',
 		name: "",
 		course: "",
 		email: "",
 		phone: "",
 	});
-	const {id} = useParams();
+	useEffect(()=>{
+		async function fetchStudent(){
+			const res = await axios.get(`http://localhost:8000/api/edit-student/${id}`);
+			if(res.data.status === 200)
+			{
+				setStudentData({
+					id: res.data.student.id,
+					name: res.data.student.name,
+					course: res.data.student.course,
+					email: res.data.student.email,
+					phone: res.data.student.phone,
+				});
+			}
+		}
+		fetchStudent();
+	},[id]);
 
 
 	let name, value;
@@ -21,25 +39,21 @@ export default function EditStudent() {
 		setStudentData({ ...studentData, [name]: value });
 	};
 
-	useEffect(()=>{
-		async function getStudent(){
-			const res = await axios.get(`api/editStudent/${id}`)
-			if(res.data.status == 200)
-			{
 
-			}
-
-		}
-		getStudent();
-	},[id])
 
 	const updateStudent = async (e) => {
 		e.preventDefault();
 		try {
 			const res = await axios.post("http://localhost:8000/api/update-student", studentData);
 			if(res.data.status===200) {
-				console.log(res.data.message);
+				swal({
+					title: "Updated!",
+					text: res.data.message,
+					icon: "success",
+					button: "OK!",
+				});
 				setStudentData({
+					id:'',
 					name: "",
 					course: "",
 					email: "",
@@ -58,7 +72,7 @@ export default function EditStudent() {
 					<div className="card">
 						<div className="card-header">
 							<h4>
-								Add Student
+								Edit Student
 								<Link to="/" className="btn btn-primary btn-sm float-end">
 									Back
 								</Link>

@@ -28,4 +28,33 @@ class StudentController extends Controller
             "students"=>$students
         ]);
     }
+
+    public function edit($id){
+        $student = Student::find($id);
+        return response()->json([
+            "status"=>200,
+            "student"=>$student,
+        ]);
+    }
+    public function update(Request $request){
+        $studentId = $request->id;
+        $student = Student::find($studentId);
+        $student->name= $request->name;
+        $student->course= $request->course;
+        $student->email= $request->email;
+        $student->phone= $request->phone;
+        $student->update();
+        return response()->json([
+            "status"=>200,
+            "message"=>"Data updated Successfully",
+        ]);
+    }
+    public function destroy($id){
+        $student = Student::find($id);
+        $student->delete();
+        return response()->json([
+            "status"=>200,
+            "message"=>"Data deleted Successfully",
+        ]);
+    }
 }
